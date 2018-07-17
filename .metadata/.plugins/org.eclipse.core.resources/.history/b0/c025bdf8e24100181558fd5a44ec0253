@@ -1,0 +1,5 @@
+package com.zsz.dto;
+
+public class MerchantDTO {
+
+}

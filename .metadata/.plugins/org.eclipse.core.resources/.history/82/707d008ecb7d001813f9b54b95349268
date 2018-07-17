@@ -1,0 +1,33 @@
+package com.zsz.admin.servlet;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import com.zsz.dto.MerchantDTO;
+import com.zsz.service.MerchantService;
+
+public class MerchantTest {
+
+	private MerchantService merchantService = new MerchantService();
+	
+	@Test
+	public void test() {
+		MerchantDTO merchant = new MerchantDTO();
+		merchant.setAddress("hahah");
+		merchant.setBossName("林国龙");
+		merchant.setCityId(3);
+		merchant.setDescription(" kjfds");
+		merchant.setTypeId(5);
+		merchant.setName("林国龙 2");
+		merchant.setPhoneNum("13414830431");
+		merchant.setBossIdCardPicUrl("http://oucyspkau.bkt.clouddn.com/upload/"
+				+ "2018/5/3/335f5249-2308-4eb8-b079-5b534e071e1d.jpg");
+		merchant.setBusinessLicenseUrl("http://oucyspkau.bkt.clouddn.com/"
+				+ "upload/2018/5/3/335f5249-2308-4eb8-b079-5b534e071e1d.jpg");
+		merchant.setIdCardNum("445322199605030416");
+		
+		merchantService.applyMerchant(merchant);
+	}
+
+}

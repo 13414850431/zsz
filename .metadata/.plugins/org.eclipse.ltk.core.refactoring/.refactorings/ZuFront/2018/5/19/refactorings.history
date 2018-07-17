@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;life-service.jsp&apos; to &apos;merchant&apos;&#x0D;&#x0A;- Original project: &apos;ZuFront&apos;&#x0D;&#x0A;- Destination element: &apos;merchant&apos;&#x0D;&#x0A;- Original element: &apos;life-service.jsp&apos;" description="Copy file" element1="WebContent/WEB-INF/merchant/life-service.jsp" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1525655439583" target="/ZuFront/WebContent/WEB-INF/merchant" units="0" version="1.0"/>
+</session>

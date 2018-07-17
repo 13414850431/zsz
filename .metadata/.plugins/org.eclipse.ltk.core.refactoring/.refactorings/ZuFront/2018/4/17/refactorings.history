@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete 6 elements from project &apos;ZuFront&apos;&#x0D;&#x0A;- Original project: &apos;ZuFront&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     ZSZDAO&#x0D;&#x0A;     ZSZDTO&#x0D;&#x0A;     ZSZService&#x0D;&#x0A;     ZSZTools&#x0D;&#x0A;     ZuAdmin&#x0D;&#x0A;     ZuFront" description="Delete elements" element1="ZSZTools" element2="ZSZService" element3="ZuAdmin" element4="ZSZDAO" element5="ZSZDTO" element6="ZuFront" elements="0" flags="589830" id="org.eclipse.jdt.ui.delete" resources="6" stamp="1524453020653" subPackages="false" version="1.0"/>
+</session>

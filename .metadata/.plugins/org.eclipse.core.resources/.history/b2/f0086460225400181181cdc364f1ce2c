@@ -1,0 +1,179 @@
+package com.zsz.admin.servlet;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+import com.zsz.dto.MerchantDTO;
+import com.zsz.dto.MerchantTypeDTO;
+import com.zsz.service.MerchantService;
+import com.zsz.service.MerchantTypeService;
+import com.zsz.tools.AjaxResult;
+import com.zsz.tools.CommonUtils;
+
+@WebServlet("/Merchant")
+public class MerchantServlet extends BaseServlet {
+	
+	MerchantTypeService merchantTypeService = new MerchantTypeService();
+	MerchantService merchantService = new MerchantService();
+	
+	public void showMerType(HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException{
+		MerchantTypeDTO[] types = merchantTypeService.getAllMerchantTypes();
+		req.setAttribute("types", types);
+		req.getRequestDispatcher("/WEB-INF/merchant/merchantTypeList.jsp").forward(req, resp);
+	}
+	
+	public void addType(HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException{
+		req.getRequestDispatcher("/WEB-INF/merchant/merchantTypeAdd.jsp").forward(req, resp);
+	}
+	
+	public void addTypeSubmit(HttpServletRequest req,HttpServletResponse resp) throws IOException{
+		//名称不能为空
+		String name  = req.getParameter("typeName");
+		if(CommonUtils.isNullOrWhiteSpace(name)){
+			writeJson(resp, new AjaxResult("error","名称不能为空"));
+		}
+		String description = req.getParameter("typeDescription");//获得商品分类描述
+		
+		merchantTypeService.addMerchantType(name, description);
+		
+		writeJson(resp, new AjaxResult("ok"));
+		
+	}
+	
+	public void editType(HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException{
+		//拿到id
+		long id = Long.parseLong(req.getParameter("id"));
+		
+		MerchantTypeDTO  merchantType = merchantTypeService.getById(id);
+		
+		req.setAttribute("merchantType", merchantType);
+		
+		req.getRequestDispatcher("/WEB-INF/merchant/merchantTypeEdit.jsp").forward(req, resp);;
+		
+	}
+	
+	public void editTypeSubmit(HttpServletRequest req,HttpServletResponse resp) throws IOException{
+		
+		long id = Long.parseLong(req.getParameter("id"));
+		
+		//名称不能为空
+		String name  = req.getParameter("typeName");
+		if(CommonUtils.isNullOrWhiteSpace(name)){
+			writeJson(resp, new AjaxResult("error","名称不能为空"));
+		}
+		String description = req.getParameter("typeDescription");//获得商品分类描述
+		
+		merchantTypeService.updateMerchantType(id,name, description);
+		
+		writeJson(resp, new AjaxResult("ok"));
+		
+	}
+	
+	public void delType(HttpServletRequest req,HttpServletResponse resp) throws IOException{
+		//那要删除的分类id
+		long id = Long.parseLong(req.getParameter("id"));
+		
+		//查找该分类下是否存在商家，有就报错
+		int count = merchantTypeService.countMerchantByType(id);
+		
+		if(count>0){
+			writeJson(resp, new AjaxResult("error","不可以删除非空的分类"));
+			return;
+		}
+		writeJson(resp, new AjaxResult("ok"));
+		
+	}
+	public void notPassMer(HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException{
+		//需要准备好状态为审核中的商家
+		MerchantDTO[] merchants = merchantService.getMerchantNotPass();
+		
+		req.setAttribute("merchants", merchants);
+		
+		req.getRequestDispatcher("/WEB-INF/merchant/merchantNoPassList.jsp").forward(req, resp);
+		
+		
+	}
+	
+	public void startMer(HttpServletRequest req,HttpServletResponse resp) throws IOException{
+		//拿到商家的id
+		long merchantId = Long.parseLong(req.getParameter("id"));
+		
+		merchantService.passMerchant(merchantId);
+		
+		writeJson(resp, new AjaxResult("ok"));	
+	}
+	
+	public void stopMer(HttpServletRequest req,HttpServletResponse resp) throws IOException, ServletException{
+		long merchantId = Long.parseLong(req.getParameter("id"));
+		
+		req.setAttribute("merchantId", merchantId); 
+		
+		req.getRequestDispatcher("/WEB-INF/merchant/MerNoPassReason.jsp").forward(req, resp);
+		
+	}
+	
+	public void ReasonSubmit(HttpServletRequest req,HttpServletResponse resp) throws IOException{
+		
+		long merchantId =Long.parseLong(req.getParameter("merchantId"));
+		String reason = req.getParameter("reason");
+		merchantService.killMerchant(merchantId,reason);
+		
+		writeJson(resp, new AjaxResult("ok"));
+		
+	}
+	
+	
+	public void showMer(HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException{
+		long merchantId = Long.parseLong(req.getParameter("id"));
+		
+		MerchantDTO merchant = merchantService.getMerchantById(merchantId);
+		
+		req.setAttribute("merchant", merchant);
+		
+		req.getRequestDispatcher("/WEB-INF/merchant/showMerchant.jsp").forward(req, resp);;
+		
+	}
+	
+	public void merchantPass(HttpServletRequest req,HttpServletResponse resp) throws IOException{
+		long merchantId = Long.parseLong(req.getParameter("id"));
+		
+		merchantService.passMerchant(merchantId);
+		
+		writeJson(resp, new AjaxResult("ok"));
+		
+	}
+	
+	public void showMerchantPassed(HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException{
+		Gson gson = new Gson();
+		
+		//获得所有的商家分类
+		MerchantTypeDTO[]	merchantTypes = merchantTypeService.getAllMerchantTypes();
+		
+		List<String> merchantTypeNames = new ArrayList<>();
+		for(int i=0;i<merchantTypes.length;i++){
+			merchantTypeNames.add(merchantTypes[i].getName());
+		}
+		String json = gson.toJson(merchantTypeNames);
+		req.setAttribute("merchantTypes", json);
+		System.out.println(json);
+		System.out.println(merchantTypes.length);
+		
+		//获得第一个分类的商家
+		MerchantDTO[] merchants = merchantService.getAllMerchantPassedByTypeId(merchantTypes[0].getId());
+		req.setAttribute("merchants", merchants);
+		req.getRequestDispatcher("/WEB-INF/merchant/merchantPassedList.jsp").forward(req, resp);
+		
+		
+	}
+	
+	
+
+}

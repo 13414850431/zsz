@@ -1,0 +1,8 @@
+@charset "utf-8";
+/* 你自己的样式 */
+.mySelect{display:inline;border:solid 1px #ddd;box-sizing:border-box;cursor: pointer;line-height:normal;font-weight: normal;width:100%}
+.myTit{.
+   color: #111111; font-size: .5rem; line-height: .8rem;font-size: .5rem; color: #181818; width: 20%;background: none; color: #f58611;font-size: .45rem; color: #333; line-height: 2.3rem; margin-left: .5rem; width: 60%; overflow: hidden; text-overflow: ellipsis; -webkit-text-overflow: 
+   ellipsis; white-space: nowrap;}
+
+.Myselect{display:inline;position: relative; padding: .3rem 0 .2rem; line-height: .7rem; border-top: 1px dotted #ccc; }

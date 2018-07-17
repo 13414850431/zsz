@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete element from project &apos;ZuAdmin&apos;&#x0D;&#x0A;- Original project: &apos;ZuAdmin&apos;&#x0D;&#x0A;- Original element: &apos;map.js&apos;" description="Delete element" element1="WebContent/lib/ueditor/1.4.3/third-party/highcharts/modules/map.js" elements="0" flags="589830" id="org.eclipse.jdt.ui.delete" resources="1" stamp="1530517309506" subPackages="false" version="1.0"/>
+</session>

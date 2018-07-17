@@ -1,0 +1,7 @@
+<classpath>
+  <container id="ZuAdmin!org.eclipse.jst.j2ee.internal.web.container">
+    <entry id="D:/学习/java/项目/掌上租/zsz/掌上租/ZuAdmin/WebContent/WEB-INF/lib/log4j-api-2.6.2.jar">
+      <source-attachment-path>/ZuAdmin/WebContent/WEB-INF/lib/log4j-api-2.6.2.jar</source-attachment-path>
+    </entry>
+  </container>
+</classpath>

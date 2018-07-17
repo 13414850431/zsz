@@ -1,0 +1,62 @@
+package com.zsz.dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.zsz.dao.utils.JDBCUtils;
+import com.zsz.dto.MerchantTypeDTO;
+
+public class MerchantTypeDAO {
+	
+	public static MerchantTypeDTO toDto(ResultSet rs) throws SQLException{
+		MerchantTypeDTO dto = new MerchantTypeDTO();
+		if(rs!=null){
+			dto.setName(rs.getString("name"));
+			dto.setDescription(rs.getString("description"));
+			
+		}
+		return dto;
+	}
+	
+	public static void addMerchantType(String name,String description){
+		StringBuilder sb = new StringBuilder();
+		sb.append("insert into t_merchantTypes(name,description) values(?,?) \n");
+		try {
+			JDBCUtils.executeInsert(sb.toString(), name,description);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public static MerchantTypeDTO[] getAllMerchantTypes(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("select * from t_merchantTypes \n");
+		ResultSet rs = null;
+		List<MerchantTypeDTO> list = new ArrayList<>();
+		
+		try {
+			rs = JDBCUtils.executeQuery(sb.toString());
+			while(rs.next()){
+				list.add(toDto(rs));
+			}
+			return list.toArray(new MerchantTypeDTO[list.size()]);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}finally{
+			JDBCUtils.closeAll(rs);
+		}
+	}
+	
+	public static void main(String[] args) {
+		
+		addMerchantType("搬家", "搬运佬发家致富的故事");
+		addMerchantType("保洁", "清洁阿姨秘密服务");
+		addMerchantType("修理", "隔壁老王专业修理");
+		addMerchantType("水电煤", "尚未开发");
+		MerchantTypeDTO[] types = getAllMerchantTypes();
+		System.out.println(types.length);
+	}
+	
+}
